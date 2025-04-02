@@ -2,88 +2,136 @@
   <view class="container">
     <!-- 自定义导航栏 -->
     <view class="custom-nav">
-      <view class="nav-title">
-        <text class="title-text">我的队伍</text>
-        <text class="title-en">MY TEAMS</text>
-      </view>
-      <view class="nav-right">
-        <image class="nav-icon" src="/static/icons/notification.svg" mode="aspectFit"></image>
-      </view>
-    </view>
-    
-    <!-- 搜索框 -->
-    <view class="search-box">
-      <image class="search-icon" src="/static/icons/search.svg" mode="aspectFit"></image>
-      <input class="search-input" type="text" placeholder="搜索队伍..." confirm-type="search" />
-    </view>
-    
-    <!-- 我的队伍列表 -->
-    <view class="section-title">
-      <text>我的队伍</text>
-      <view class="add-team-btn">+ 创建队伍</view>
-    </view>
-    
-    <!-- 队伍列表 -->
-    <view class="team-list">
-      <!-- 队伍卡片1 -->
-      <view class="team-card">
-        <view class="team-card-left">
-          <image class="team-image" src="/static/images/event1.svg" mode="aspectFill"></image>
-        </view>
-        <view class="team-card-right">
-          <view class="team-title">创意无限队</view>
-          <view class="team-info">5人 · 粤港澳大湾区大学生创意节</view>
-          <view class="team-status">
-            <text class="status-tag status-active">进行中</text>
-            <text class="status-time">剩余12天</text>
-          </view>
-        </view>
-      </view>
+      <image src="/static/images/bg_top.png" mode="aspectFill" class="nav-bg-image"></image>
       
-      <!-- 队伍卡片2 -->
-      <view class="team-card">
-        <view class="team-card-left">
-          <image class="team-image" src="/static/images/event2.svg" mode="aspectFill"></image>
+      <!-- 搜索区域 -->
+      <view class="search-area">
+        <view class="search-box">
+          <image class="search-icon" src="/static/icons/search.svg" mode="aspectFit"></image>
+          <input class="search-input" type="text" placeholder="寻找比赛/活动/企业..." confirm-type="search" />
         </view>
-        <view class="team-card-right">
-          <view class="team-title">视觉先锋</view>
-          <view class="team-info">3人 · 大学生创作大赛</view>
-          <view class="team-status">
-            <text class="status-tag status-active">进行中</text>
-            <text class="status-time">剩余74天</text>
+        <view class="nav-right">
+          <image class="nav-icon" src="/static/icons/notification-off.png" mode="aspectFit"></image>
+        </view>
+      </view>
+    </view>
+
+    <!-- 轮播图 -->
+    <swiper class="banner-swiper" indicator-dots indicator-color="rgba(255, 255, 255, 0.6)" indicator-active-color="#FFFFFF" autoplay interval="3000" circular>
+      <swiper-item>
+        <image class="banner-image" src="/static/images/competition1.png" mode="aspectFill"></image>
+      </swiper-item>
+      <swiper-item>
+        <image class="banner-image" src="/static/images/competition2.png" mode="aspectFill"></image>
+      </swiper-item>
+      <swiper-item>
+        <image class="banner-image" src="/static/images/competition3.png" mode="aspectFill"></image>
+      </swiper-item>
+      <swiper-item>
+        <image class="banner-image" src="/static/images/competition4.png" mode="aspectFill"></image>
+      </swiper-item>
+    </swiper>
+    
+    <!-- 选项卡导航 -->
+    <view class="tab-bar">
+      <view 
+        class="tab-item" 
+        :class="{ 'active': activeTab === 'support' }" 
+        @click="activeTab = 'support'"
+      >
+        <text>支持单位</text>
+      </view>
+      <view 
+        class="tab-item" 
+        :class="{ 'active': activeTab === 'partner' }" 
+        @click="activeTab = 'partner'"
+      >
+        <text>合作单位</text>
+      </view>
+      <view 
+        class="tab-item" 
+        :class="{ 'active': activeTab === 'creative' }" 
+        @click="activeTab = 'creative'"
+      >
+        <text>创意公司</text>
+      </view>
+    </view>
+    
+    <!-- 支持单位列表 -->
+    <view v-if="activeTab === 'support'" class="company-list">
+      <!-- 公司卡片1 -->
+      <view class="company-card">
+        <view class="company-card-left">
+          <image class="company-image" src="/static/images/CompetitionList1.png" mode="aspectFill"></image>
+        </view>
+        <view class="company-card-right">
+          <view class="company-title">蓝色光标Blue Digital</view>
+          <view class="company-tags">
+            <text class="tag">广告</text>
+            <text class="tag">传媒</text>
+            <text class="tag">公关</text>
+            <text class="tag">展览</text>
+          </view>
+          <view class="company-desc">蓝色光标(数字)致力于提供专业的数字技术、数据、资源和服务能力，为客户提供整合的智能营销解决方案，集聚零售、出海营销、品牌营销...</view>
+          <view class="company-status">
+            <text class="status-tag status-recruiting">招聘中</text>
           </view>
         </view>
       </view>
     </view>
     
-    <!-- 推荐队伍 -->
-    <view class="section-title">
-      <text>推荐队伍</text>
-    </view>
-    
-    <!-- 推荐队伍列表 -->
-    <view class="team-list">
-      <!-- 推荐队伍卡片 -->
-      <view class="team-card">
-        <view class="team-card-left">
-          <image class="team-image" src="/static/images/event3.svg" mode="aspectFill"></image>
+    <!-- 合作单位列表 -->
+    <view v-if="activeTab === 'partner'" class="company-list">
+      <!-- 公司卡片 -->
+      <view class="company-card">
+        <view class="company-card-left">
+          <image class="company-image" src="/static/images/CompetitionList2.png" mode="aspectFill"></image>
         </view>
-        <view class="team-card-right">
-          <view class="team-title">光影魔术手</view>
-          <view class="team-info">4人 · 赛司光学创意大赛</view>
-          <view class="team-status">
-            <text class="status-tag status-recruiting">招募中</text>
-            <text class="status-time">需要：平面设计、文案</text>
+        <view class="company-card-right">
+          <view class="company-title">原象i2mago</view>
+          <view class="company-tags">
+            <text class="tag">设计</text>
+            <text class="tag">传媒</text>
           </view>
-          <view class="join-btn">申请加入</view>
+          <view class="company-desc">数字营业创意公司，成立于2006年，总部位于广州，在北京设有分公司。我们是一家专注品牌建设与整合型数字营销机构，我们擅长为...</view>
         </view>
       </view>
+    </view>
+    
+    <!-- 创意公司列表 -->
+    <view v-if="activeTab === 'creative'" class="company-list">
+      <!-- 公司卡片 -->
+      <view class="company-card">
+        <view class="company-card-left">
+          <image class="company-image" src="/static/images/CompetitionList3.png" mode="aspectFill"></image>
+        </view>
+        <view class="company-card-right">
+          <view class="company-title">蓝狮科技Lancest</view>
+          <view class="company-tags">
+            <text class="tag">广告</text>
+            <text class="tag">传媒</text>
+            <text class="tag">公关</text>
+          </view>
+          <view class="company-desc">蓝狮科技，专注于电子商务事业，依托多品牌体系化运营能力，全业务数字化支撑能力，引领中国品牌走向世界。</view>
+          <view class="company-status">
+            <text class="status-tag status-recruiting">招聘中</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 底部提示图片 -->
+    <view class="list-bottom">
+      <image src="/static/images/list_bottom.png" mode="aspectFit" class="bottom-image"></image>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+
+// 定义当前激活的选项卡，默认显示支持单位
+const activeTab = ref('support')
 
 onMounted(() => {
   console.log('队伍页面加载完成')
@@ -99,29 +147,22 @@ onMounted(() => {
 
 /* 自定义导航栏 */
 .custom-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 80rpx 30rpx 20rpx;
-  background: linear-gradient(180deg, #4B7BFF 0%, #6B8FFF 100%);
-  color: #FFFFFF;
+  position: relative;
+  width: 100%;
+  height: 300rpx; /* 设置固定高度 */
+  padding: 0;
+  overflow: hidden;
 }
 
-.nav-title {
-  display: flex;
-  flex-direction: column;
-}
-
-.title-text {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #FFFF00;
-}
-
-.title-en {
-  font-size: 24rpx;
-  color: #FFFFFF;
-  opacity: 0.8;
+/* 导航栏背景图片 */
+.nav-bg-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0; /* 确保图片在底层 */
+  object-fit: cover; /* 确保图片完全覆盖容器 */
 }
 
 .nav-icon {
@@ -129,17 +170,30 @@ onMounted(() => {
   height: 48rpx;
 }
 
+/* 搜索区域 */
+.search-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 30rpx;
+  position: absolute;
+  bottom: 25rpx;
+  left: 0;
+  right: 0;
+  z-index: 1; /* 确保搜索区域在背景图上方 */
+}
+
 /* 搜索框 */
 .search-box {
-  margin: 0 30rpx;
-  margin-top: -20rpx;
-  height: 80rpx;
+  flex: 1;
+  height: 60rpx;
   background-color: #FFFFFF;
   border-radius: 40rpx;
   display: flex;
   align-items: center;
   padding: 0 30rpx;
   box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1);
+  margin-right: 20rpx;
 }
 
 .search-icon {
@@ -155,29 +209,67 @@ onMounted(() => {
   color: #333;
 }
 
-/* 标题栏 */
-.section-title {
+.nav-right {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
+}
+
+/* 轮播图 */
+.banner-swiper {
   margin: 30rpx;
+  height: 300rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
 }
 
-.add-team-btn {
-  font-size: 28rpx;
-  color: #4B7BFF;
-  font-weight: normal;
+.banner-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 20rpx;
 }
 
-/* 队伍列表 */
-.team-list {
+/* 选项卡导航 */
+.tab-bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20rpx 30rpx;
+  position: relative;
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  font-size: 32rpx;
+  color: #666;
+  padding: 16rpx 0;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.tab-item.active {
+  color: #333;
+  font-weight: bold;
+}
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 6rpx;
+  background-color: #4F7DF7;
+  border-radius: 3rpx;
+}
+
+/* 公司列表 */
+.company-list {
   padding: 0 30rpx;
 }
 
-.team-card {
+.company-card {
   display: flex;
   background-color: #FFFFFF;
   border-radius: 20rpx;
@@ -187,39 +279,61 @@ onMounted(() => {
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
 
-.team-card-left {
+.company-card-left {
   width: 120rpx;
   height: 120rpx;
   margin-right: 30rpx;
 }
 
-.team-image {
+.company-image {
   width: 100%;
   height: 100%;
   border-radius: 10rpx;
 }
 
-.team-card-right {
+.company-card-right {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.team-title {
+.company-title {
   font-size: 32rpx;
   font-weight: bold;
   color: #333;
   margin-bottom: 10rpx;
 }
 
-.team-info {
-  font-size: 26rpx;
-  color: #666;
+.company-tags {
+  display: flex;
+  flex-wrap: wrap;
   margin-bottom: 10rpx;
 }
 
-.team-status {
+.tag {
+  font-size: 24rpx;
+  color: #666;
+  background-color: #F5F5F5;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  margin-right: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.company-desc {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.company-status {
   display: flex;
   align-items: center;
   margin-bottom: 10rpx;
@@ -241,18 +355,15 @@ onMounted(() => {
   background-color: #F6FFED;
   color: #52C41A;
 }
-
-.status-time {
-  font-size: 24rpx;
-  color: #999;
+/* 底部提示图片 */
+.list-bottom {
+  display: flex;
+  justify-content: center;
+  padding: 30rpx 0 50rpx;
 }
 
-.join-btn {
-  align-self: flex-start;
-  font-size: 26rpx;
-  color: #FFFFFF;
-  background-color: #4B7BFF;
-  padding: 8rpx 20rpx;
-  border-radius: 30rpx;
+.bottom-image {
+  width: 100%;
+  height: 250rpx;
 }
 </style>
