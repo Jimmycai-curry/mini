@@ -1,0 +1,78 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "灵感学院",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#4B7BFF",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/team/index",
+			"style": {
+				"navigationBarTitleText": "我的队伍",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#4B7BFF",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/message/index",
+			"style": {
+				"navigationBarTitleText": "消息中心",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#4B7BFF",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/profile/index",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#4B7BFF",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#5B7FFF",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "比赛",
+				"iconPath": "static/icons/home-off.png",
+				"selectedIconPath": "static/icons/home.png"
+			},
+			{
+				"pagePath": "pages/team/index",
+				"text": "伙伴",
+				"iconPath": "static/icons/team-off.png",
+				"selectedIconPath": "static/icons/team.png"
+			},
+			{
+				"pagePath": "pages/message/index",
+				"text": "活动",
+				"iconPath": "static/icons/message-off.png",
+				"selectedIconPath": "static/icons/message.png"
+			},
+			{
+				"pagePath": "pages/profile/index",
+				"text": "我的",
+				"iconPath": "static/icons/my_info-off.png",
+				"selectedIconPath": "static/icons/my_info.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "灵感学院",
+		"navigationBarBackgroundColor": "#4B7BFF",
+		"backgroundColor": "#F8F8F8"
+	}
+}
