@@ -192,13 +192,15 @@ const relatedActivities = ref([
 
 // 7. Bottom Bar Data & Logic
 const deadline = ref({
-    date: '2024.12.22',
+    date: '2025.12.22',
     remaining: '' // 将在 onLoad 中计算
 });
 
 const calculateRemainingTime = (deadlineDate: string) => {
     const now = new Date();
-    const end = new Date(deadlineDate + ' 24:00:00');
+    // 将 "yyyy.MM.dd" 转换为 iOS 兼容的 "yyyy-MM-dd" 格式，并修改24:00:00为23:59:59
+    const formattedDate = deadlineDate.replace(/\./g, '-') + ' 23:59:59';
+    const end = new Date(formattedDate);
     const diff = end.getTime() - now.getTime();
 
     if (diff <= 0) {
