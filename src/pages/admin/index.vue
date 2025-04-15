@@ -121,6 +121,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
+// 移除不再需要的跳转函数
+/*
+const navigateToDetail = (competitionId: string) => {
+  console.log('尝试跳转到详情页，ID:', competitionId);
+  uni.navigateTo({
+    url: `/pages/admin/competition-detail?id=${competitionId}`
+  });
+};
+*/
+
 onMounted(() => {
   console.log('页面加载完成')
 })

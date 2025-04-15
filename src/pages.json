@@ -35,6 +35,27 @@
 				"navigationBarBackgroundColor": "#4B7BFF",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/admin/index",
+			"style": {
+				"navigationBarTitleText": "管理首页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/admin/competition-detail",
+			"style": {
+				"navigationBarTitleText": "赛事详情",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/admin/competition-registration",
+			"style": {
+				"navigationBarTitleText": "作品提交",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"tabBar": {

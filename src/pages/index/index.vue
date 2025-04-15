@@ -40,7 +40,7 @@
     <!-- 赛事列表 -->
     <view class="event-list">
       <!-- 赛事卡片1 -->
-      <view class="event-card">
+      <view class="event-card" @click="navigateToDetail('gba-creative-festival')">
         <view class="event-card-left">
           <image class="event-image" src="/static/images/CompetitionList1.png" mode="aspectFill"></image>
         </view>
@@ -120,6 +120,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+
+// 添加跳转函数
+const navigateToDetail = (competitionId: string) => {
+  console.log('尝试从 index/index 跳转到详情页，ID:', competitionId); // 更新日志
+  // 这里可以根据 competitionId 动态传递参数
+  uni.navigateTo({
+    url: `/pages/admin/competition-detail?id=${competitionId}` // 目标页面路径不变
+  });
+};
 
 onMounted(() => {
   console.log('页面加载完成')
