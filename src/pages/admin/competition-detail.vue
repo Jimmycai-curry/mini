@@ -2,15 +2,22 @@
   <view class="competition-detail-page">
     <!-- 1. Navigation -->
     <view class="navigation-bar">
-      <view class="back-icon" @click="navigateBack">‹</view> <!-- 使用简单的字符代替返回图标 -->
-      <text class="title">赛事详情</text>
-      <view class="placeholder"></view> <!-- 用于占位使标题居中 -->
+      <view class="status-bar" :style="{ height: statusBarHeight + 'px' }"></view>
+      <view class="nav-content">
+        <view class="back-icon" @click="navigateBack">
+          <image src="/static/icons/back-icon.svg" mode="aspectFit"></image>
+        </view>
+        <text class="title">赛事详情</text>
+        <view class="placeholder"></view>
+      </view>
     </view>
 
     <!-- 2. Video Placeholder -->
     <view class="video-placeholder">
-      <image src="/static/images/video.png" mode="aspectFill" class="video-image"></image>
-      <!-- 可以添加播放按钮图标 -->
+      <image src="/static/images/competition-video.png" mode="aspectFill" class="video-image"></image>
+      <view class="play-button">
+        <image src="/static/icons/video-play-icon.svg" mode="aspectFit" class="play-icon"></image>
+      </view>
     </view>
 
     <!-- 3. Title Section -->
@@ -19,16 +26,16 @@
           <text class="main-title">2022粤港澳大湾区大学生创意节</text>
           <view class="tags">
               <text class="tag">视频</text>
-              <text class="tag-separator">|</text>
+              <view class="tag-line"></view>
               <text class="tag">平面</text>
-              <text class="tag-separator">|</text>
+              <view class="tag-line"></view>
               <text class="tag">策划</text>
-              <text class="tag-separator">|</text>
+              <view class="tag-line"></view>
               <text class="tag">文案</text>
           </view>
       </view>
       <view class="bookmark-area">
-          <view class="bookmark-icon">☆</view> <!-- 使用简单的字符代替收藏图标 -->
+          <image src="/static/icons/bookmark-icon.svg" mode="aspectFit" class="bookmark-icon"></image>
           <text class="bookmark-count">3279</text>
       </view>
     </view>
@@ -59,13 +66,12 @@
        <view class="section">
         <text class="section-title">赛事命题</text>
         <text class="section-content">点击下方企业logo查看命题与下载相关资料。</text>
-        <!-- 此处未来可添加企业logo图片按钮 -->
+        <!-- 企业logo展示 -->
         <view class="company-logos">
-            <!-- 示例Logo占位 -->
-            <view class="logo-placeholder">企业A</view>
-            <view class="logo-placeholder">企业B</view>
-            <view class="logo-placeholder">企业C</view>
-            <view class="logo-placeholder">企业D</view>
+            <image src="/static/images/company-logo1.png" mode="aspectFit" class="company-logo"></image>
+            <image src="/static/images/company-logo2.png" mode="aspectFit" class="company-logo"></image>
+            <image src="/static/images/company-logo3.png" mode="aspectFit" class="company-logo"></image>
+            <image src="/static/images/company-logo4.png" mode="aspectFit" class="company-logo"></image>
         </view>
       </view>
       <view class="section">
@@ -98,12 +104,18 @@
                    <view class="activity-info">
                        <text class="activity-title">{{ activity.title }}</text>
                        <text class="activity-time">{{ activity.time }}</text>
-                       <text class="activity-location">{{ activity.participants }}人 | {{ activity.method }} | {{ activity.location }}</text>
+                       <view class="activity-details">
+                         <text class="activity-detail-item">{{ activity.participants }}人</text>
+                         <view class="detail-separator"></view>
+                         <text class="activity-detail-item">{{ activity.method }}</text>
+                         <view v-if="activity.location" class="detail-separator"></view>
+                         <text v-if="activity.location" class="activity-detail-item">{{ activity.location }}</text>
+                       </view>
                    </view>
                    <view :class="['activity-status', activity.status === 'recruiting' ? 'recruiting' : 'starting']">
                        {{ activity.status === 'recruiting' ? '招募中' : '即将开始' }}
                    </view>
-                   <view class="bookmark-icon-activity">☆</view> <!-- 活动卡片上的收藏图标 -->
+                   <image src="/static/icons/activity-bookmark-icon.svg" mode="aspectFit" class="bookmark-icon-activity"></image>
                </view>
            </view>
        </view>
@@ -128,16 +140,24 @@
             <text class="deadline-date">{{ deadline.date }} 24:00</text>
             <text class="deadline-remaining">截止剩余{{ deadline.remaining }}</text>
         </view>
-        <button class="share-button" open-type="share">分享</button>
-        <button class="participate-button" @click="navigateToRegistration">参与赛事</button>
+        <button class="share-button" open-type="share">
+          <image src="/static/icons/share.svg" mode="aspectFit" class="button-icon"></image>
+          分享
+        </button>
+        <button class="participate-button" @click="navigateToRegistration">
+          <image src="/static/icons/competition.svg" mode="aspectFit" class="button-icon"></image>
+          参与赛事</button>
     </view>
 
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { onLoad } from '@dcloudio/uni-app';
+
+// 状态栏高度
+const statusBarHeight = ref(20);
 
 // Tab Bar State
 const tabs = ref([
@@ -171,7 +191,7 @@ const competitionDetails = ref({
 // 6. Related Activities Data
 const relatedActivities = ref([
   {
-    image: '/static/images/activity1.png', // 假设的图片路径
+    image: '/static/images/activity1.png', 
     title: '创意集训营丨粤港澳湾创节',
     time: '2024.4.10-2024.4.15',
     location: '广州天河区珠江新城',
@@ -180,7 +200,7 @@ const relatedActivities = ref([
     status: 'recruiting' // recruiting or starting
   },
   {
-    image: '/static/images/activity2.png', // 假设的图片路径
+    image: '/static/images/activity2.png',
     title: '创意集训营丨粤港澳湾创节',
     time: '2024.4.10-2024.4.15',
     location: '广州天河区珠江新城',
@@ -219,6 +239,15 @@ const navigateToRegistration = () => {
 }
 
 // 页面逻辑将在这里添加
+onMounted(() => {
+  // 获取状态栏高度
+  uni.getSystemInfo({
+    success: (res) => {
+      statusBarHeight.value = res.statusBarHeight || 20;
+    }
+  });
+});
+
 onLoad((options) => {
   if (options?.id) {
     const competitionId = options.id;
@@ -241,53 +270,81 @@ onLoad((options) => {
 </script>
 
 <style scoped lang="scss">
-// 导入或定义主题色变量
-// :root {
-//   --theme-theme: rgba(82, 88, 242, 1);
-// }
-
 .competition-detail-page {
   display: flex;
   flex-direction: column;
-  background-color: #f8f8f8; // 页面背景色
+  background-color: #F5F5FA; // 页面背景色
+  min-height: 100vh;
 }
 
 /* 1. 导航栏样式 */
 .navigation-bar {
-  display: flex; // 使用弹性布局，让子元素横向排列
-  align-items: center; // 子元素在垂直方向上居中对齐
-  justify-content: space-between; // 子元素在水平方向上两端对齐，使标题居中
-  height: 120rpx; // 设置导航栏高度为120rpx
-  padding: 0 30rpx; // 设置左右内边距为30rpx
-  padding-top: var(--status-bar-height); // 顶部内边距为状态栏高度，用于适配不同手机型号
-  background: var(--theme-theme, rgba(82, 88, 242, 1)); // 设置导航栏背景色，使用主题色变量，默认值为蓝色
-  color: white; // 设置文字颜色为白色
-
-  .back-icon {
-    font-size: 60rpx; // 设置返回图标字体大小
-    width: 100rpx; // 设置返回图标区域宽度
-    cursor: pointer; // 鼠标悬停时显示手型光标
+  background: #5258F2; // 主题色
+  color: #FFFFFF;
+  
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 44px;
+    padding: 0 16px;
+    
+    .back-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      image {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
+    .title {
+      font-size: 17px;
+      font-weight: 400;
+      flex: 1;
+      text-align: center;
+    }
+    
+    .placeholder {
+      width: 24px;
+    }
   }
-  .title {
-    font-size: 32rpx; // 设置标题文字大小
-    font-weight: bold; // 设置标题文字加粗
-  }
-   .placeholder {
-     width: 60rpx; // 设置占位元素宽度，与返回图标宽度一致，用于保持标题居中
-   }
 }
 
 /* 2. Video Placeholder */
 .video-placeholder {
   width: 100%;
-  height: 400rpx; // 示例高度
+  height: 400rpx;
   background-color: #000;
   position: relative;
+  
   .video-image {
     width: 100%;
     height: 100%;
   }
-  // 可以添加播放按钮样式
+  
+  .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100rpx;
+    height: 100rpx;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .play-icon {
+      width: 40rpx;
+      height: 40rpx;
+    }
+  }
 }
 
 /* 3. Title Section */
@@ -295,27 +352,37 @@ onLoad((options) => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start; // 垂直顶部对齐
-  padding: 30rpx;
+  padding: 30rpx 20rpx;
   background-color: #fff;
-  margin-bottom: 20rpx;
 
   .main-title-area {
       flex: 1;
       margin-right: 20rpx;
+      
       .main-title {
-          font-size: 36rpx;
-          font-weight: bold;
-          color: #333;
+          font-size: 40rpx;
+          font-weight: 500;
+          color: #191658;
           display: block;
           margin-bottom: 15rpx;
+          line-height: 1.4;
       }
+      
       .tags {
          display: flex;
          align-items: center;
          flex-wrap: wrap;
-         color: #666;
-         font-size: 24rpx;
-         .tag-separator {
+         
+         .tag {
+             font-size: 24rpx;
+             color: #696693;
+             line-height: 1.4;
+         }
+         
+         .tag-line {
+             width: 1px;
+             height: 10px;
+             background-color: #D8D8F1;
              margin: 0 8rpx;
          }
       }
@@ -326,11 +393,13 @@ onLoad((options) => {
       flex-direction: column;
       align-items: center;
       color: #666;
+      
       .bookmark-icon {
-          font-size: 40rpx; // 调整图标大小
-          color: #ff9900; // 示例颜色
+          width: 40rpx;
+          height: 40rpx;
           margin-bottom: 5rpx;
       }
+      
       .bookmark-count {
           font-size: 24rpx;
       }
@@ -340,32 +409,30 @@ onLoad((options) => {
 /* 4. Tab Bar */
 .tab-bar {
   display: flex;
-  justify-content: space-around;
   background-color: #fff;
-  padding: 20rpx 0;
+  padding: 0 20rpx;
   border-bottom: 1rpx solid #eee;
-  margin-bottom: 20rpx;
 
   .tab-item {
-    font-size: 28rpx;
-    color: #666;
-    padding: 10rpx 20rpx;
+    font-size: 30rpx;
+    color: #696693;
+    padding: 20rpx 0;
+    margin-right: 48rpx;
     position: relative;
-    cursor: pointer;
-
+    
     &.active {
-      color: var(--theme-theme, rgba(82, 88, 242, 1));
-      font-weight: bold;
+      color: #5258F2;
+      font-weight: 500;
+      
       &::after {
         content: '';
         position: absolute;
-        bottom: -10rpx;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60%;
-        height: 6rpx;
-        background-color: var(--theme-theme, rgba(82, 88, 242, 1));
-        border-radius: 3rpx;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #5258F2;
+        border-radius: 1.5px;
       }
     }
   }
@@ -374,41 +441,43 @@ onLoad((options) => {
 /* Tab Content Area */
 .tab-content {
   background-color: #fff;
-  padding: 30rpx;
-  margin-bottom: 140rpx; // 增加底部栏空间
+  padding: 20rpx;
+  margin-bottom: 120rpx; // 增加底部栏空间
 }
 
 /* Section Styling */
 .section {
-  margin-bottom: 40rpx;
+  margin-bottom: 30rpx;
+  
   .section-title {
-    font-size: 30rpx;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15rpx;
+    font-size: 34rpx;
+    font-weight: 400;
+    color: #191658;
+    margin: 24rpx 0 15rpx;
     display: block;
   }
+  
   .section-content {
-    font-size: 26rpx;
-    color: #555;
-    line-height: 1.6;
+    font-size: 28rpx;
+    color: #333;
+    line-height: 1.8;
     white-space: pre-wrap; // 保留换行符
   }
 }
 
-/* Company Logos Placeholder */
+/* Company Logos */
 .company-logos {
     display: flex;
     flex-wrap: wrap;
-    gap: 20rpx;
+    gap: 16rpx;
     margin-top: 20rpx;
-    .logo-placeholder {
-        padding: 10rpx 20rpx;
-        border: 1rpx solid #eee;
-        border-radius: 8rpx;
-        font-size: 24rpx;
-        color: #666;
-        // 替换为实际图片样式
+    justify-content: center;
+    
+    .company-logo {
+        width: 150rpx;
+        height: 150rpx;
+        border: 1px solid #5258F2;
+        border-radius: 8px;
     }
 }
 
@@ -418,6 +487,7 @@ onLoad((options) => {
          margin-bottom: 20rpx;
     }
 }
+
 .activity-list {
   display: flex;
   flex-direction: column;
@@ -429,8 +499,9 @@ onLoad((options) => {
   background-color: #fff;
   border-radius: 16rpx;
   padding: 20rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
   position: relative;
+  border: 0.5px solid #C6C7FD;
 
   .activity-image {
     width: 200rpx;
@@ -445,12 +516,11 @@ onLoad((options) => {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    font-size: 24rpx;
-    color: #666;
+    
     .activity-title {
-      font-size: 28rpx;
-      font-weight: bold;
-      color: #333;
+      font-size: 30rpx;
+      font-weight: 400;
+      color: #191658;
       margin-bottom: 8rpx;
       // 最多显示两行
       overflow: hidden;
@@ -458,13 +528,31 @@ onLoad((options) => {
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+      line-height: 1.4;
     }
+    
     .activity-time {
+        font-size: 24rpx;
+        color: #5258F2;
         margin-bottom: 4rpx;
     }
-     .activity-location {
-        font-size: 22rpx;
-        color: #999;
+    
+    .activity-details {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        
+        .activity-detail-item {
+            font-size: 20rpx;
+            color: #696693;
+        }
+        
+        .detail-separator {
+            width: 1px;
+            height: 10rpx;
+            background-color: #D8D8F1;
+            margin: 0 8rpx;
+        }
     }
   }
 
@@ -472,17 +560,17 @@ onLoad((options) => {
     position: absolute;
     top: 20rpx;
     right: 20rpx;
-    padding: 6rpx 12rpx;
-    border-radius: 6rpx;
-    font-size: 22rpx;
-    font-weight: bold;
+    padding: 4rpx 8rpx;
+    border-radius: 4rpx;
+    font-size: 20rpx;
+    color: #FFFFFF;
+    
     &.recruiting {
-      background-color: rgba(82, 88, 242, 0.1);
-      color: var(--theme-theme, rgba(82, 88, 242, 1));
+      background-color: #5258F2;
     }
+    
     &.starting {
-      background-color: rgba(255, 153, 0, 0.1);
-      color: #ff9900;
+      background-color: #FFAE12;
     }
   }
 
@@ -490,12 +578,10 @@ onLoad((options) => {
       position: absolute;
       bottom: 20rpx;
       right: 20rpx;
-      font-size: 36rpx;
-      color: #ccc; // 未收藏状态
-      // 可以添加点击切换收藏状态的逻辑和样式
+      width: 36rpx;
+      height: 36rpx;
   }
 }
-
 
 /* 7. Bottom Bar Styling */
 .bottom-bar {
@@ -506,43 +592,57 @@ onLoad((options) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20rpx 30rpx;
+    padding: 16rpx 20rpx;
     background-color: #fff;
     border-top: 1rpx solid #eee;
-    box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+    box-shadow: 0 -4rpx 12rpx rgba(216, 216, 241, 0.12);
     padding-bottom: constant(safe-area-inset-bottom); // 适配 iPhone X 等底部安全区域
     padding-bottom: env(safe-area-inset-bottom);
 
     .deadline-info {
         display: flex;
         flex-direction: column;
-        font-size: 22rpx;
-        color: #999;
+        
         .deadline-date {
-            font-size: 26rpx;
-            color: #333;
+            font-size: 28rpx;
+            color: #191658;
             margin-bottom: 4rpx;
+        }
+        
+        .deadline-remaining {
+            font-size: 24rpx;
+            color: #666;
         }
     }
 
     button {
         margin-left: 20rpx;
-        padding: 0 40rpx;
+        padding: 0 30rpx;
         height: 70rpx;
         line-height: 70rpx;
-        font-size: 28rpx;
+        font-size: 30rpx;
         border-radius: 35rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .button-icon {
+            width: 32rpx;
+            height: 32rpx;
+            margin-right: 8rpx;
+        }
     }
 
     .share-button {
         background-color: #fff;
-        color: var(--theme-theme, rgba(82, 88, 242, 1));
-        border: 1rpx solid var(--theme-theme, rgba(82, 88, 242, 1));
+        color: #5258F2;
+        border: 1rpx solid #5258F2;
     }
 
     .participate-button {
-        background: var(--theme-theme, rgba(82, 88, 242, 1));
+        background: #5258F2;
         color: #fff;
+        min-width: 240rpx;
     }
 
      // 微信小程序button边框处理
@@ -550,6 +650,4 @@ onLoad((options) => {
         border: none;
     }
 }
-
-
 </style> 
